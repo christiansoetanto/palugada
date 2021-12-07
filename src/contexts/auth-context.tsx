@@ -1,10 +1,8 @@
 import Cookies from "js-cookie";
 import React, { ReactNode, useEffect, useState } from "react";
-const axios = require("axios").default;
-interface User {
-	username: string;
-	userId: number;
-}
+import UserLogin from "../interfaces/UserLogin";
+import User from "../interfaces/User";
+
 interface Context {
 	isLoggedIn: boolean;
 	onLogOut: Function;
@@ -13,10 +11,6 @@ interface Context {
 	token: string | null;
 }
 
-interface LoginFormData {
-	username: string;
-	password: string;
-}
 const ctxObject: Context = {
 	isLoggedIn: false,
 	onLogOut: () => {},
@@ -42,18 +36,11 @@ export const AuthContextProvider: React.FC<Props> = (props: Props) => {
 		}
 	}, []);
 
-	const logInHandler = (params: LoginFormData) => {
-		if (true) {
-			const user: User = {
-				username: params.username + "||" + params.password,
-				userId: 1,
-			};
-			const token = "asdasd";
-			Cookies.set("user", JSON.stringify(user), { expires: 365 });
-			Cookies.set("token", token, { expires: 365 });
-			setUser(user);
-			setToken(token);
-		}
+	const logInHandler = (params: UserLogin) => {
+		Cookies.set("user", JSON.stringify(params.user), { expires: 365 });
+		Cookies.set("token", params.token, { expires: 365 });
+		setUser(params.user);
+		setToken(params.token);
 	};
 
 	const logOutHandler = () => {
