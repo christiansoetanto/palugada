@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Layout from "./layouts/Layout";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
+import Menu from "./pages/Menu";
 interface Props {}
 
 const App: React.FunctionComponent<Props> = (props: Props) => {
@@ -14,6 +15,9 @@ const App: React.FunctionComponent<Props> = (props: Props) => {
 
 				<Route path='/home' exact>
 					<Home />
+				</Route>
+				<Route path='/menu' exact>
+					<Menu />
 				</Route>
 
 				<Route path='/login' exact>

@@ -2,15 +2,17 @@ import { request } from "https";
 import React, { useState, useEffect, useContext, useCallback } from "react";
 import { Interface } from "readline";
 import AuthContext from "../contexts/auth-context";
-import RequestConfig from "../interfaces/RequestConfig";
+import IRequestConfig from "../interfaces/IRequestConfig";
 
 const useFetchRequest = () => {
 	const ctx = useContext(AuthContext);
 	const [error, setError] = useState<string | null>(null);
 
-	const fetchRequest = useCallback(async (requestConfig: RequestConfig, applyData: (data: any) => void) => {
+	const fetchRequest = useCallback(async (requestConfig: IRequestConfig, applyData: (data: any) => void) => {
 		setError(null);
 		try {
+			if (requestConfig.url.includes("{{userId}}")) requestConfig.url = requestConfig.url.replace("{{userId}}", ctx.user!.userId.toString());
+
 			const url = process.env.REACT_APP_API_BASEURL + requestConfig.url;
 			const body = requestConfig.body ? JSON.stringify(requestConfig.body) : null;
 			let headers = requestConfig.headers ?? {};
@@ -38,8 +40,9 @@ const useFetchRequest = () => {
 	}, []);
 
 	return {
-		error,
 		fetchRequest,
+		error,
+		setError,
 	};
 };
 export default useFetchRequest;

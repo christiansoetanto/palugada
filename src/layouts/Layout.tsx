@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import AuthContext from "../contexts/auth-context";
 import Login from "../pages/Login";
 import NavBar from "./NavBar";
@@ -15,7 +15,7 @@ const Layout: React.FunctionComponent<Props> = (props: Props) => {
 			{ctx.isLoggedIn && ctx.user && (
 				<div className='asd'>
 					<NavBar />
-					<main className='p-2 md:mx-36'>{props.children}</main>
+					<main className='p-2 mx-10 md:mx-36'>{props.children}</main>
 				</div>
 			)}
 

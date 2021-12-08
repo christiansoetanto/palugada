@@ -1,9 +1,9 @@
-enum Method {
+enum IMethod {
 	GET = "GET",
 	POST = "POST",
-	PUT = "POST",
+	PUT = "PUT",
 	PATCH = "PATCH",
 	DELETE = "DELETE",
 }
 
-export default Method;
+export default IMethod;

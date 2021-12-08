@@ -1,17 +1,17 @@
 import Cookies from "js-cookie";
 import React, { ReactNode, useEffect, useState } from "react";
-import UserLogin from "../interfaces/UserLogin";
-import User from "../interfaces/User";
+import IUserLogin from "../interfaces/IUserLogin";
+import IUser from "../interfaces/IUser";
 
-interface Context {
+interface IContext {
 	isLoggedIn: boolean;
 	onLogOut: Function;
 	onLogIn: Function;
-	user: User | null;
+	user: IUser | null;
 	token: string | null;
 }
 
-const ctxObject: Context = {
+const ctxObject: IContext = {
 	isLoggedIn: false,
 	onLogOut: () => {},
 	onLogIn: () => {},
@@ -24,7 +24,7 @@ interface Props {
 	children: ReactNode;
 }
 export const AuthContextProvider: React.FC<Props> = (props: Props) => {
-	const [user, setUser] = useState<User | null>(null);
+	const [user, setUser] = useState<IUser | null>(null);
 	const [token, setToken] = useState<string | null>(null);
 
 	useEffect(() => {
@@ -36,7 +36,7 @@ export const AuthContextProvider: React.FC<Props> = (props: Props) => {
 		}
 	}, []);
 
-	const logInHandler = (params: UserLogin) => {
+	const logInHandler = (params: IUserLogin) => {
 		Cookies.set("user", JSON.stringify(params.user), { expires: 365 });
 		Cookies.set("token", params.token, { expires: 365 });
 		setUser(params.user);

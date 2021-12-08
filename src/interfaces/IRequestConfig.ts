@@ -1,4 +1,4 @@
-export default interface RequestConfig {
+export default interface IRequestConfig {
 	url: string;
 	body?: any;
 	headers?: any;

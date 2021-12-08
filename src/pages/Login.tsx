@@ -1,11 +1,14 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, { useContext, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import AuthContext from "../contexts/auth-context";
 import useFetchRequest from "../hooks/use-fetch-request";
-import RequestConfig from "../interfaces/RequestConfig";
-import Method from "../interfaces/Method";
-import LoginData from "../interfaces/LoginData";
-import UserLogin from "../interfaces/UserLogin";
+import ILoginData from "../interfaces/ILoginData";
+import IMethod from "../interfaces/IMethod";
+import IRequestConfig from "../interfaces/IRequestConfig";
+import IUserLogin from "../interfaces/IUserLogin";
+import Input from "../components/UI/Input";
+import Button from "../components/UI/Button";
+import ErrorMessage from "../components/UI/ErrorMessage";
 interface Props {}
 
 const Login: React.FunctionComponent<Props> = (props: Props) => {
@@ -13,47 +16,43 @@ const Login: React.FunctionComponent<Props> = (props: Props) => {
 	const passwordRef = useRef<HTMLInputElement>(null);
 	const ctx = useContext(AuthContext);
 	const history = useHistory();
-	const { error, fetchRequest } = useFetchRequest();
+	const { fetchRequest, error, setError } = useFetchRequest();
 
-	const submitHandler = () => {
-		const username: string = usernameRef?.current?.value ?? "";
-		const password: string = passwordRef?.current?.value ?? "";
+	const submitHandler = async (event: React.SyntheticEvent) => {
+		event.preventDefault();
 
-		const config: RequestConfig = {
-			url: `user/login`,
-			method: Method.POST,
-			body: {
-				username,
-				password,
-			} as LoginData,
-		};
-		const onLogin = async (data: UserLogin) => {
-			await ctx.onLogIn(data);
-			history.push("/");
-		};
+		const username: string = usernameRef.current!.value;
+		const password: string = passwordRef.current!.value;
+		console.log(username, password);
+		if (!username) setError("Please insert username");
+		else if (!password) setError("Please insert password");
+		else {
+			const config: IRequestConfig = {
+				url: `user/login`,
+				method: IMethod.POST,
+				body: {
+					username,
+					password,
+				} as ILoginData,
+			};
+			const onLogin = async (data: IUserLogin) => {
+				await ctx.onLogIn(data);
+				history.push("/");
+			};
 
-		fetchRequest(config, onLogin);
+			fetchRequest(config, onLogin);
+		}
 	};
 
 	return (
-		<div>
-			<div id='form'>
-				<div>
-					<div>{error}</div>
-				</div>
-				<div>
-					<input type='text' id='username' ref={usernameRef} />
-					<label htmlFor='username'>Username</label>
-				</div>
-				<div>
-					<input type='password' id='password' ref={passwordRef} />
-					<label htmlFor='password'>Password</label>
-				</div>
-				<div>
-					<button onClick={submitHandler}>Login</button>
-				</div>
+		<form onSubmit={submitHandler} className='flex flex-col  items-center justify-center absolute h-full w-full'>
+			<div className='w-1/4'>
+				<Input ref={usernameRef} text='Username' />
+				<Input ref={passwordRef} type='password' text='Password' />
+				<Button type='submit' text='Login' />
+				<ErrorMessage message={error} />
 			</div>
-		</div>
+		</form>
 	);
 };
 export default Login;

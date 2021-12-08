@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-
+import React from "react";
+import Schedule from "./Schedule";
 interface Props {}
 
 const Home: React.FunctionComponent<Props> = (props: Props) => {
-	return <div>kamu di rumah loh</div>;
+	return <Schedule />;
 };
 export default Home;

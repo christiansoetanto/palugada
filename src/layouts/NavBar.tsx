@@ -26,6 +26,7 @@ const NavBar: React.FunctionComponent<Props> = (props: Props) => {
 				<NavLink to='/' className='font-bold text-2xl'>
 					<div className='flex items-center justify-center flex-1'>Home</div>
 				</NavLink>
+				
 			</div>
 
 			<label htmlFor='menu-toggle' className='pointer-cursor lg:hidden block'>
@@ -48,6 +49,15 @@ const NavBar: React.FunctionComponent<Props> = (props: Props) => {
 							onClick={handleNavLinkOnClick}
 							style={{ borderColor: "transparent" }}>
 							Home
+						</NavLink>
+
+						<NavLink
+							className='md:pr-4 pl-4 py-3 px-0 block border-b-2 w-full md:w-auto hover:border-amber-300 text-sm md:text-base'
+							to='/menu'
+							activeClassName='border-amber-300'
+							onClick={handleNavLinkOnClick}
+							style={{ borderColor: "transparent" }}>
+							Menu
 						</NavLink>
 					</div>
 				</nav>
