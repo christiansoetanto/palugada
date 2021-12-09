@@ -1,6 +1,6 @@
 export default interface IOrderDetail {
-	orderDetailId?: number;
 	orderHeaderId?: number;
-	menuId: number;
+	id: string;
 	amount: number;
+	menuId: number;
 }

@@ -1,196 +1,123 @@
-import React, { createRef, SyntheticEvent, useEffect, useRef, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
+import React, { SyntheticEvent, useEffect, useRef, useState } from "react";
 import useFetchRequest from "../../hooks/use-fetch-request";
 import IMenuItem from "../../interfaces/IMenuItem";
-import IOrderDetail from "../../interfaces/IOrderDetail";
-import IOrderHeader from "../../interfaces/IOrderHeader";
 import IRequestConfig from "../../interfaces/IRequestConfig";
-import ISelectMenuData from "../../interfaces/ISelectMenuData";
-import { moneyFormatter } from "../Helper/helper";
-import Button from "../UI/Button";
-import ErrorMessage from "../UI/ErrorMessage";
-import Input from "../UI/Input";
+import OrderDetailItem from "./OrderDetailItem";
+import { v4 as uuidv4 } from "uuid";
 import AddSVG from "../UI/SVG/AddSVG";
-import MinusSVG from "../UI/SVG/MinusSVG";
+import IOrderDetail from "../../interfaces/IOrderDetail";
+import Input from "../UI/Input";
+import ErrorMessage from "../UI/ErrorMessage";
+import Button from "../UI/Button";
+import IOrderHeader from "../../interfaces/IOrderHeader";
+import IMethod from "../../interfaces/IMethod";
+
 interface Props {
 	date: Date;
 	menu: IMenuItem[];
+	triggerRerender: () => void;
 }
 
 const InputOrderForm: React.FunctionComponent<Props> = (props: Props) => {
-	const { date, menu } = props;
-	const menuRef = useRef<HTMLSelectElement>(null);
+	const { date, menu, triggerRerender } = props;
+	const { fetchRequest, error, setError } = useFetchRequest();
+	const [amount, _] = useState<number>(0);
+	const [menuId, __] = useState<number>(0);
+
 	const titleRef = useRef<HTMLInputElement>(null);
-	const orderIdRef = useRef<HTMLInputElement>(null);
-	const errorMsgRef = useRef<HTMLDivElement>(null);
-	const [menuAmount, setMenuAmount] = useState<number>(1);
-	const [orderDetailRefs, setOrderDetailRefs] = useState<Refs[]>([
+	const [orderDetails, setOrderDetails] = useState<IOrderDetail[]>([
 		{
 			id: uuidv4(),
-			inputAmountRef: createRef<HTMLInputElement>(),
-			selectMenuRef: createRef<HTMLSelectElement>(),
+			amount,
+			menuId,
 		},
 	]);
-	const { fetchRequest, error, setError } = useFetchRequest();
 
-	interface Refs {
-		id: string;
-		selectMenuRef: React.RefObject<HTMLSelectElement>;
-		inputAmountRef: React.RefObject<HTMLInputElement>;
-	}
 
-	useEffect(() => {
-		const config: IRequestConfig = {
-			url: `menu/user/{{userId}}`,
-		};
-		const onFetch: (data: IMenuItem[]) => void = (data) => {
-			console.log(data);
-		};
-		// fetchRequest(config, onFetch);
-	}, [fetchRequest]);
+	const updateAmountHandler = (val: number, id: string) => {
+		console.log(val, id);
+		setOrderDetails((prev) => {
+			return prev.map((e) => {
+				return e.id === id ? { ...e, amount: val } : { ...e };
+			});
+		});
+	};
+	const updateMenuIdHandler = (val: number, id: string) => {
+		console.log(val, id);
+		setOrderDetails((prev) => {
+			return prev.map((e) => {
+				return e.id === id ? { ...e, menuId: val } : { ...e };
+			});
+		});
+	};
 
-	useEffect(() => {
-		console.log(orderDetailRefs);
-	}, [orderDetailRefs]);
-
-	const submitHandler = (e: React.SyntheticEvent) => {
+	const submitHandler = (e: SyntheticEvent) => {
 		e.preventDefault();
-		console.log(orderDetailRefs);
-		let isAnyError = false;
-		let errorMsg = "";
+		setError("");
 		const title = titleRef.current!.value;
 		if (!title) {
-			isAnyError = true;
-			errorMsg += "Please input title. \n";
+			setError("Please input title.");
+			return;
 		}
-		const orderDetails: IOrderDetail[] = [];
-
-		orderDetailRefs.forEach((e) => {
-			const amount = e.inputAmountRef?.current?.value!;
-			const menuId = e.selectMenuRef?.current?.value!;
-			console.log(`Input amount: ${amount}. menu: ${menuId}`);
-			if (amount && menuId) {
-				console.log(amount, menuId);
-				if (!amount) {
-					isAnyError = true;
-					errorMsg += "Please input amount.\n";
-				}
-				if (!menuId || menuId === "") {
-					isAnyError = true;
-					errorMsg += "Please select menu.\n";
-				}
-				orderDetails.push({
-					amount: parseInt(amount),
-					menuId: parseInt(menuId),
-				});
-			}
-		});
-		console.log(orderDetails);
-		if (orderDetails.length === 0) {
-			isAnyError = true;
-			errorMsg += "Please input orderan.\n";
+		const filteredOrderDetails = orderDetails.filter((e) => e.amount && e.menuId);
+		setOrderDetails(filteredOrderDetails);
+		if (filteredOrderDetails.length === 0) {
+			setError("Please insert orderan.");
+			return;
 		}
-		if (isAnyError) {
-			errorMsgRef.current!.innerHTML = errorMsg;
-		} else {
-			errorMsgRef.current!.innerHTML = "";
-			const orderHeader: IOrderHeader = {
-				title: title,
-				orderDetail: orderDetails,
-			};
-			console.log(orderHeader);
-		}
+		const orderHeader: IOrderHeader = {
+			title,
+			date: date,
+			orderDetail: filteredOrderDetails,
+		};
+		const config: IRequestConfig = {
+			url: `order/{{userId}}`,
+			method: IMethod.POST,
+			body: orderHeader,
+		};
+		const onSubmit: (data: any) => void = (data) => {
+			console.log(data);
+			triggerRerender();
+		};
+		fetchRequest(config, onSubmit);
 	};
 
-	const addMenuAmountHandler = () => {
-		console.log("add");
-		setOrderDetailRefs((prev) => {
-			return [
-				...prev,
-				{
-					id: uuidv4(),
-					inputAmountRef: createRef<HTMLInputElement>(),
-					selectMenuRef: createRef<HTMLSelectElement>(),
-				},
-			];
+	const addItemHandler = () => {
+		setOrderDetails((prev) => {
+			return [...prev, { id: uuidv4(), amount, menuId }];
 		});
 	};
-	const substractMenuAmountHandler = (id: string) => {
-		console.log("substract");
-
-		setOrderDetailRefs((prev) => {
-			console.log(`initial: ${prev.length}`);
+	const deleteItemHandler = (id: string) => {
+		setOrderDetails((prev) => {
 			return prev.filter((e) => e.id !== id);
 		});
 	};
+
 	return (
 		<div>
 			<form onSubmit={submitHandler} className='flex flex-col justify-center items-center'>
-				<div className='w-full lg:w-1/4'>
-					{JSON.stringify(menu)}
+				<div className='w-full lg:w-1/4 flex flex-col'>
 					{date.toString()}
 					<Input text='Title' ref={titleRef} />
-					<div className='flex flex-col'>
-						{orderDetailRefs.map((e, i) => {
-							return (
-								<div key={uuidv4()} className='flex fex-row gap-2'>
-									<div>
-										<label className='block mb-3'>
-											<span className='text-gray-500 text-sm '>Menu</span>
-											<select
-												className='block w-full focus:outline-none bg-transparent border-2 rounded border-gray-300 text-sm md:text-base p-1'
-												key={e.id}
-												defaultValue={""}
-												ref={e.selectMenuRef}>
-												<option disabled={true} value={""}>
-													Select menu
-												</option>
-												{menu.map((e) => {
-													return (
-														<option key={e.menuId} value={e.menuId}>
-															{e.name} {moneyFormatter(e.price)}
-														</option>
-													);
-												})}
-											</select>
-										</label>
-									</div>
-									<div>
-										<label className='block mb-3'>
-											<span className='text-gray-500 text-sm '>Amount</span>
-											<input
-												ref={e.inputAmountRef}
-												type={"number"}
-												min={0}
-												max={2147483647}
-												className='block w-full focus:outline-none bg-transparent border-2 rounded border-gray-300 text-sm md:text-base p-1'
-											/>
-										</label>
-									</div>
-									<div className='flex align-middle items-center justify-items-center'>
-										{i === 0 && <div className='h-6 w-6'></div>}
 
-										{i > 0 && (
-											<MinusSVG
-												onClick={() => {
-													substractMenuAmountHandler(e.id);
-												}}
-											/>
-										)}
-									</div>
-								</div>
-							);
-						})}
-					</div>
+					{orderDetails.map((e) => {
+						return (
+							<OrderDetailItem
+								data={e}
+								menu={menu}
+								onUpdateAmount={updateAmountHandler}
+								onUpdateMenuId={updateMenuIdHandler}
+								onDelete={deleteItemHandler}
+							/>
+						);
+					})}
 					<div className='flex justify-items-end'>
 						<div>
-							<AddSVG onClick={addMenuAmountHandler} />
+							<AddSVG onClick={addItemHandler} />
 						</div>
 					</div>
-					<Input text='' ref={orderIdRef} type='hidden' />
-					<Button type='submit' text='Submit' />
-					<div className=' my-5 text-red-700' ref={errorMsgRef}></div>
 					<ErrorMessage message={error} />
+					<Button type='submit' text='Submit' />
 				</div>
 			</form>
 		</div>

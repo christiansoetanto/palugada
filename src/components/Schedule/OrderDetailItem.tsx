@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from "react";
 import IMenuItem from "../../interfaces/IMenuItem";
-interface IOrderDetailState {
-	id: string;
-	amount: number;
-	menuId: number;
-}
+import IOrderDetail from "../../interfaces/IOrderDetail";
+import MinusSVG from "../UI/SVG/MinusSVG";
 interface Props {
-	data: IOrderDetailState;
+	data: IOrderDetail;
 	menu: IMenuItem[];
 	onUpdateAmount: (val: number, id: string) => void;
 	onUpdateMenuId: (val: number, id: string) => void;
+	onDelete: (id: string) => void;
 }
 
 const OrderDetailItem: React.FunctionComponent<Props> = (props: Props) => {
-	const { data, menu, onUpdateAmount, onUpdateMenuId } = props;
+	const { data, menu, onUpdateAmount, onUpdateMenuId, onDelete } = props;
 	const { id, amount, menuId } = data;
 	const updateAmount = (val: number) => {
 		onUpdateAmount(val, id);
@@ -31,7 +29,7 @@ const OrderDetailItem: React.FunctionComponent<Props> = (props: Props) => {
 						className='block w-full focus:outline-none bg-transparent border-2 rounded border-gray-300 text-sm md:text-base p-1'
 						value={menuId}
 						onChange={(e) => updateMenuId(parseInt(e.target.value))}>
-						<option disabled={true} value={""}>
+						<option disabled={true} value={0}>
 							Select menu
 						</option>
 						{menu.map((e) => {
@@ -56,6 +54,13 @@ const OrderDetailItem: React.FunctionComponent<Props> = (props: Props) => {
 						className='block w-full focus:outline-none bg-transparent border-2 rounded border-gray-300 text-sm md:text-base p-1'
 					/>
 				</label>
+			</div>
+			<div className='flex align-middle items-center justify-items-center'>
+				<MinusSVG
+					onClick={() => {
+						onDelete(id);
+					}}
+				/>
 			</div>
 		</div>
 	);

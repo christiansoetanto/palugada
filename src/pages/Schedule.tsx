@@ -3,7 +3,6 @@ import MonthTitle from "../components/Schedule/MonthTitle";
 import Calendar from "../components/Schedule/Calendar";
 import ICell from "../interfaces/ICell";
 import InputOrderForm from "../components/Schedule/InputOrderForm";
-import InputOrderForm2 from "../components/Schedule/InputOrderForm2";
 import IMenuItem from "../interfaces/IMenuItem";
 import useFetchRequest from "../hooks/use-fetch-request";
 import IRequestConfig from "../interfaces/IRequestConfig";
@@ -62,12 +61,15 @@ const Schedule: React.FunctionComponent<Props> = (props: Props) => {
 		setCurrentDate(date);
 	};
 
+	const triggerRerender = () => {
+		setCurrentDate(null);
+	};
+
 	return (
 		<div className='flex flex-col'>
 			<MonthTitle currentMonth={currentMonth} currentYear={currentYear} decreaseMonth={decreaseMonth} increaseMonth={increaseMonth} />
 			<Calendar cells={cells} currentMonth={currentMonth} onClick={dateClickHandler} />
-			{/* {currentDate && <InputOrderForm date={currentDate} menu={menu} />} */}
-			{currentDate && <InputOrderForm2 date={currentDate} menu={menu} />}
+			{currentDate && <InputOrderForm date={currentDate} menu={menu} triggerRerender={triggerRerender} />}
 		</div>
 	);
 };
