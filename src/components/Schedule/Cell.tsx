@@ -1,23 +1,34 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import AddSVG from "../UI/SVG/AddSVG";
+import InfoSVG from "../UI/SVG/InfoSVG";
 
 interface Props {
 	date: Date;
+	currentMonth: number;
+	onClick: (date: Date) => void;
 }
 
 const Cell: React.FunctionComponent<Props> = (props: Props) => {
+	const { date, currentMonth, onClick } = props;
+
 	const dateClickHandler = () => {
-		console.log("clock");
+		onClick(date);
 	};
 
-	const { date } = props;
+	const isToday = +new Date().setHours(0, 0, 0, 0) === +new Date(date);
+	const isSunday = date.getDay() === 0;
+	const isCurrentMonth = date.getMonth() === currentMonth;
 	return (
-		<div
-			className={`flex items-center  justify-center border border-gray-300 h-auto pb-8 ${
-				+new Date().setHours(0, 0, 0, 0) === +new Date(date) && "bg-amber-100"
-			}`}
-			style={{ minHeight: "6rem" }}
-			onClick={dateClickHandler}>
-			<div className='items-center text-center text-sm'>{date.getDate()}</div>
+		<div className={`flex flex-col border border-gray-300	 `} style={{ minHeight: "6rem" }}>
+			<div
+				className={`text-sm  ${!isCurrentMonth && "text-gray-800"} text-center border-b-2 border-black border-transparent ${
+					isSunday && "text-red-400"
+				}  ${!isCurrentMonth && "bg-warmGray-400"}  ${isToday && "bg-green-300"}`}>
+				{date.getDate()}
+			</div>
+			<div className={`bg-warmGray-100  h-full`} onClick={dateClickHandler}>
+				a
+			</div>
 		</div>
 	);
 };

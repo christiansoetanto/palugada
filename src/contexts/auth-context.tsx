@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
 import React, { ReactNode, useEffect, useState } from "react";
-import IUserLogin from "../interfaces/IUserLogin";
 import IUser from "../interfaces/IUser";
+import IUserLogin from "../interfaces/IUserLogin";
 
 interface IContext {
 	isLoggedIn: boolean;

@@ -14,10 +14,8 @@ const Menu: React.FunctionComponent<Props> = (props: Props) => {
 	useEffect(() => {
 		const config: IRequestConfig = {
 			url: `menu/user/{{userId}}`,
-			method: IMethod.GET,
 		};
 		const onFetch = async (data: IMenuItem[]) => {
-			console.log(data);
 			setMenuList(data);
 		};
 
@@ -26,7 +24,6 @@ const Menu: React.FunctionComponent<Props> = (props: Props) => {
 
 	const submitHandler = async (data: IMenuItem) => {
 		const { name, price, menuId } = data;
-		console.log(data);
 		let config: IRequestConfig;
 		let onSubmit: (data: IMenuItem) => void;
 		if (menuId) {
@@ -39,7 +36,6 @@ const Menu: React.FunctionComponent<Props> = (props: Props) => {
 				} as IMenuItem,
 			};
 			onSubmit = async (data: IMenuItem) => {
-				console.log(data);
 				setMenuList((prev) => {
 					return prev.map((p) => (p.menuId === data.menuId ? { ...data } : { ...p }));
 				});
@@ -54,13 +50,11 @@ const Menu: React.FunctionComponent<Props> = (props: Props) => {
 				} as IMenuItem,
 			};
 			onSubmit = async (data: IMenuItem) => {
-				console.log(data);
 				setMenuList((prev) => {
 					return [...prev, data];
 				});
 			};
 		}
-		console.log(config);
 		fetchRequest(config, onSubmit);
 	};
 
@@ -81,8 +75,6 @@ const Menu: React.FunctionComponent<Props> = (props: Props) => {
 	};
 
 	const editHandler = (data: IMenuItem) => {
-		console.log("edieteing");
-		console.log(data);
 		setEditMenuData(data);
 	};
 

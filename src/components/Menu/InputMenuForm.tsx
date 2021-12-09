@@ -1,8 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import useFetchRequest from "../../hooks/use-fetch-request";
 import IMenuItem from "../../interfaces/IMenuItem";
-import IMethod from "../../interfaces/IMethod";
-import IRequestConfig from "../../interfaces/IRequestConfig";
 import Button from "../UI/Button";
 import ErrorMessage from "../UI/ErrorMessage";
 import Input from "../UI/Input";
@@ -20,7 +17,6 @@ const InputMenuForm: React.FunctionComponent<Props> = (props: Props) => {
 	const { onSubmit, editMenuData } = props;
 
 	useEffect(() => {
-		console.log(editMenuData);
 		if (editMenuData) {
 			nameRef.current!.value = editMenuData.name;
 			priceRef.current!.value = editMenuData.price.toString();
@@ -33,7 +29,6 @@ const InputMenuForm: React.FunctionComponent<Props> = (props: Props) => {
 		const name: string = nameRef.current!.value;
 		const price: number = parseInt(priceRef.current!.value);
 		const menuId: number = parseInt(menuIdRef.current!.value);
-		console.log(name, price);
 		if (!name) setError("Please insert name");
 		else if (!price) setError("Please insert price");
 		else {

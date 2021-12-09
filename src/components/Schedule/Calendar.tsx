@@ -1,17 +1,21 @@
-import React, { useState, useEffect } from "react";
-import { isNoSubstitutionTemplateLiteral } from "typescript";
+import React from "react";
 import ICell from "../../interfaces/ICell";
 import Cell from "./Cell";
 interface Props {
 	cells: ICell[];
-	onClick: () => void;
-	onDelete: () => void;
+	currentMonth: number;
+	onClick: (date: Date) => void;
 }
 
 const Calendar: React.FunctionComponent<Props> = (props: Props) => {
 	const daysOfWeek = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
-	const { cells, onClick, onDelete } = props;
+	const { cells, currentMonth, onClick } = props;
+
+	const dateClickHandler = (date: Date) => {
+		onClick(date);
+	};
+
 	return (
 		<div className='flex flex-col gap-y-4'>
 			<div className='grid grid-cols-7'>
@@ -23,26 +27,9 @@ const Calendar: React.FunctionComponent<Props> = (props: Props) => {
 					);
 				})}
 			</div>
-			<div className='grid grid-cols-7 rounded-xl grid-rows-6'>
+			<div className='grid grid-cols-7 rounded-xl gap-0'>
 				{cells.map((e, index) => {
-					return (
-						<div key={index} style={{ minHeight: "6rem" }} className='bg-warmGray-100 w-full h-full'>
-							{"\u00A0"}
-						</div>
-					);
-					// if (e.showDate) {
-					// 	return (
-					// 		<Cell
-					// 			date={e.date}
-					// 			key={index}
-					// 			schedule={e.schedule}
-					// 			onClick={dateClickHandler}
-					// 			onDelete={deleteHandler}
-					// 		/>
-					// 	);
-					// } else {
-					// 	return <div key={index} className='bg-warmGray-100 w-full h-full'></div>;
-					// }
+					return <Cell date={e.date} currentMonth={currentMonth} key={index} onClick={dateClickHandler} />;
 				})}
 			</div>
 		</div>

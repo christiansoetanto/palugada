@@ -23,7 +23,6 @@ const Login: React.FunctionComponent<Props> = (props: Props) => {
 
 		const username: string = usernameRef.current!.value;
 		const password: string = passwordRef.current!.value;
-		console.log(username, password);
 		if (!username) setError("Please insert username");
 		else if (!password) setError("Please insert password");
 		else {

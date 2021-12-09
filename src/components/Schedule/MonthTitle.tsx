@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import ChevronLeftSVG from "../UI/SVG/ChevronLeftSVG";
 import ChevronRightSVG from "../UI/SVG/ChevronRightSVG";
 
