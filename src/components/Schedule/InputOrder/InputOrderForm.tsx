@@ -1,16 +1,16 @@
-import React, { SyntheticEvent, useEffect, useRef, useState } from "react";
-import useFetchRequest from "../../hooks/use-fetch-request";
-import IMenuItem from "../../interfaces/IMenuItem";
-import IRequestConfig from "../../interfaces/IRequestConfig";
-import OrderDetailItem from "./OrderDetailItem";
+import React, { SyntheticEvent, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import AddSVG from "../UI/SVG/AddSVG";
-import IOrderDetail from "../../interfaces/IOrderDetail";
-import Input from "../UI/Input";
-import ErrorMessage from "../UI/ErrorMessage";
-import Button from "../UI/Button";
-import IOrderHeader from "../../interfaces/IOrderHeader";
-import IMethod from "../../interfaces/IMethod";
+import useFetchRequest from "../../../hooks/use-fetch-request";
+import IMenuItem from "../../../interfaces/IMenuItem";
+import IMethod from "../../../interfaces/IMethod";
+import IOrderDetail from "../../../interfaces/IOrderDetail";
+import IOrderHeader from "../../../interfaces/IOrderHeader";
+import IRequestConfig from "../../../interfaces/IRequestConfig";
+import Button from "../../UI/Button";
+import ErrorMessage from "../../UI/ErrorMessage";
+import Input from "../../UI/Input";
+import AddSVG from "../../UI/SVG/AddSVG";
+import OrderDetailFormItem from "./OrderDetailFormItem";
 
 interface Props {
 	date: Date;
@@ -21,8 +21,8 @@ interface Props {
 const InputOrderForm: React.FunctionComponent<Props> = (props: Props) => {
 	const { date, menu, triggerRerender } = props;
 	const { fetchRequest, error, setError } = useFetchRequest();
-	const [amount, _] = useState<number>(0);
-	const [menuId, __] = useState<number>(0);
+	const [amount] = useState<number>(0);
+	const [menuId] = useState<number>(0);
 
 	const titleRef = useRef<HTMLInputElement>(null);
 	const [orderDetails, setOrderDetails] = useState<IOrderDetail[]>([
@@ -33,9 +33,7 @@ const InputOrderForm: React.FunctionComponent<Props> = (props: Props) => {
 		},
 	]);
 
-
 	const updateAmountHandler = (val: number, id: string) => {
-		console.log(val, id);
 		setOrderDetails((prev) => {
 			return prev.map((e) => {
 				return e.id === id ? { ...e, amount: val } : { ...e };
@@ -43,7 +41,6 @@ const InputOrderForm: React.FunctionComponent<Props> = (props: Props) => {
 		});
 	};
 	const updateMenuIdHandler = (val: number, id: string) => {
-		console.log(val, id);
 		setOrderDetails((prev) => {
 			return prev.map((e) => {
 				return e.id === id ? { ...e, menuId: val } : { ...e };
@@ -76,7 +73,6 @@ const InputOrderForm: React.FunctionComponent<Props> = (props: Props) => {
 			body: orderHeader,
 		};
 		const onSubmit: (data: any) => void = (data) => {
-			console.log(data);
 			triggerRerender();
 		};
 		fetchRequest(config, onSubmit);
@@ -96,13 +92,12 @@ const InputOrderForm: React.FunctionComponent<Props> = (props: Props) => {
 	return (
 		<div>
 			<form onSubmit={submitHandler} className='flex flex-col justify-center items-center'>
-				<div className='w-full lg:w-1/4 flex flex-col'>
-					{date.toString()}
+				<div className='w-full  flex flex-col'>
 					<Input text='Title' ref={titleRef} />
 
 					{orderDetails.map((e) => {
 						return (
-							<OrderDetailItem
+							<OrderDetailFormItem
 								data={e}
 								menu={menu}
 								onUpdateAmount={updateAmountHandler}
@@ -111,10 +106,8 @@ const InputOrderForm: React.FunctionComponent<Props> = (props: Props) => {
 							/>
 						);
 					})}
-					<div className='flex justify-items-end'>
-						<div>
-							<AddSVG onClick={addItemHandler} />
-						</div>
+					<div className='flex flex-row justify-center'>
+						<AddSVG onClick={addItemHandler} />
 					</div>
 					<ErrorMessage message={error} />
 					<Button type='submit' text='Submit' />

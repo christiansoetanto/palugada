@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import InputMenuForm from "../components/Menu/InputMenuForm";
 import MenuTable from "../components/Menu/MenuTable";
+import ErrorMessage from "../components/UI/ErrorMessage";
 import useFetchRequest from "../hooks/use-fetch-request";
 import IMenuItem from "../interfaces/IMenuItem";
 import IMethod from "../interfaces/IMethod";
@@ -10,7 +11,7 @@ interface Props {}
 const Menu: React.FunctionComponent<Props> = (props: Props) => {
 	const [menuList, setMenuList] = useState<IMenuItem[]>([]);
 	const [editMenuData, setEditMenuData] = useState<IMenuItem | null>(null);
-	const { fetchRequest, error, setError } = useFetchRequest();
+	const { fetchRequest, error } = useFetchRequest();
 	useEffect(() => {
 		const config: IRequestConfig = {
 			url: `menu/user/{{userId}}`,
@@ -82,7 +83,7 @@ const Menu: React.FunctionComponent<Props> = (props: Props) => {
 		<div className='flex flex-col '>
 			<InputMenuForm onSubmit={submitHandler} editMenuData={editMenuData} />
 			<MenuTable data={menuList} onDelete={deleteHandler} onEdit={editHandler} />
-			{JSON.stringify(menuList)}
+			<ErrorMessage message={error} />
 		</div>
 	);
 };

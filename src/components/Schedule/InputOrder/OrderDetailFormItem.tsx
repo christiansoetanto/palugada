@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import IMenuItem from "../../interfaces/IMenuItem";
-import IOrderDetail from "../../interfaces/IOrderDetail";
-import MinusSVG from "../UI/SVG/MinusSVG";
+import React from "react";
+import IMenuItem from "../../../interfaces/IMenuItem";
+import IOrderDetail from "../../../interfaces/IOrderDetail";
+import MinusSVG from "../../UI/SVG/MinusSVG";
 interface Props {
 	data: IOrderDetail;
 	menu: IMenuItem[];
@@ -10,7 +10,7 @@ interface Props {
 	onDelete: (id: string) => void;
 }
 
-const OrderDetailItem: React.FunctionComponent<Props> = (props: Props) => {
+const OrderDetailFormItem: React.FunctionComponent<Props> = (props: Props) => {
 	const { data, menu, onUpdateAmount, onUpdateMenuId, onDelete } = props;
 	const { id, amount, menuId } = data;
 	const updateAmount = (val: number) => {
@@ -21,7 +21,7 @@ const OrderDetailItem: React.FunctionComponent<Props> = (props: Props) => {
 	};
 
 	return (
-		<div className='flex fex-row gap-2'>
+		<div className='flex flex-row  justify-between'>
 			<div>
 				<label className='block mb-3'>
 					<span className='text-gray-500 text-sm '>Menu</span>
@@ -65,4 +65,4 @@ const OrderDetailItem: React.FunctionComponent<Props> = (props: Props) => {
 		</div>
 	);
 };
-export default OrderDetailItem;
+export default OrderDetailFormItem;
