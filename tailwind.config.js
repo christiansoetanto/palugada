@@ -14,6 +14,12 @@ module.exports = {
 				warmGray: colors.warmGray,
 				amber: colors.amber,
 			},
+			minHeight: {
+				0: "0",
+				"6rem": "6rem",
+				"3rem": "3rem",
+				"2rem": "2rem",
+			},
 			minWidth: {
 				0: "0",
 				"1/4": "25%",

@@ -22,14 +22,15 @@ const Cell: React.FunctionComponent<Props> = (props: Props) => {
 	const isSunday = date.getDay() === 0;
 	const isCurrentMonth = date.getMonth() === currentMonth;
 	return (
-		<div className={`flex flex-col border border-gray-300	 `} style={{ minHeight: "6rem" }}>
+		<div className={`flex flex-col border border-gray-300`}>
 			<div
 				className={`text-sm  ${!isCurrentMonth && "text-gray-800"} text-center border-b-2 border-black border-transparent ${
 					isSunday && "text-red-400"
-				}  ${!isCurrentMonth && "bg-warmGray-400"}  ${isToday && "bg-green-300"}`}>
+				}  ${!isCurrentMonth && "bg-warmGray-400"} ${isToday && "bg-green-300"}`}>
 				{date.getDate()} {!isCurrentMonth && shortMonthName[date.getMonth()]}
 			</div>
-			<div className={`bg-warmGray-100  h-full`} onClick={dateClickHandler}>
+			<div className={`bg-warmGray-100 ${orderList && orderList.length > 0 && "min-h-6rem"}`} onClick={dateClickHandler}>
+				{(!orderList || orderList.length === 0) && <div className='text-sm px-3 my-2'>No order</div>}
 				{orderList &&
 					orderList.map((e) => {
 						return <OrderHeaderItem key={e.orderHeaderId} data={e} />;
