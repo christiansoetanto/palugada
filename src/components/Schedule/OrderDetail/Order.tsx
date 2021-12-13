@@ -43,45 +43,49 @@ const Order: React.FunctionComponent<Props> = (props: Props) => {
 
 	return (
 		<div className='flex flex-col justify-center items-center mt-5 flex-wrap'>
-			{orders && (
+			{orders && orders.length > 0 && (
 				<div>
-					Order list: <br />
+					<div>
+						Order list: <br />
+					</div>
+					<div className='flex flex-col lg:flex-row lg:flex-wrap  lg:gap-x-3 gap-y-1'>
+						{orders &&
+							orders.map((e) => {
+								const totalPrice = e
+									.orderDetail!.map((e) => {
+										return e.amount * e.menu!.price;
+									})
+									.reduce((previousValue, currentValue) => {
+										return previousValue + currentValue;
+									});
+								return (
+									<div key={e.orderHeaderId} className='flex flex-col bg-warmGray-200 rounded-2xl  justify-center px-5 py-3'>
+										<div className='text-xl text-red-600'>{e.title}</div>
+
+										<div className='text-l text-green-700'>{moneyFormatter(totalPrice)}</div>
+										<div className='text-m'>List menu: </div>
+										<ol className='list-disc'>
+											{e.orderDetail &&
+												e.orderDetail.map((od) => {
+													return (
+														<li
+															key={od.id}
+															className='flex flex-row gap-x-1 justify-between bg-amber-400  my-1 p-1 px-2 rounded-xl'>
+															<div>{od.menu!.name} </div>
+															<div>{od.amount} pc(s)</div>
+														</li>
+													);
+												})}
+										</ol>
+										<div className='flex justify-center items-center'>
+											<DeleteSVG onClick={() => deleteOrderHandler(e.orderHeaderId!)} />
+										</div>
+									</div>
+								);
+							})}
+					</div>
 				</div>
 			)}
-			<div className='flex flex-col lg:flex-row lg:flex-wrap  lg:gap-x-3 gap-y-1'>
-				{orders &&
-					orders.map((e) => {
-						const totalPrice = e
-							.orderDetail!.map((e) => {
-								return e.amount * e.menu!.price;
-							})
-							.reduce((previousValue, currentValue) => {
-								return previousValue + currentValue;
-							});
-						return (
-							<div key={e.orderHeaderId} className='flex flex-col bg-warmGray-200 rounded-2xl  justify-center px-5 py-3'>
-								<div className='text-xl text-red-600'>{e.title}</div>
-
-								<div className='text-l text-green-700'>{moneyFormatter(totalPrice)}</div>
-								<div className='text-m'>List menu: </div>
-								<ol className='list-disc'>
-									{e.orderDetail &&
-										e.orderDetail.map((od) => {
-											return (
-												<li key={od.id} className='flex flex-row gap-x-1 justify-between bg-amber-400  my-1 p-1 px-2 rounded-xl'>
-													<div>{od.menu!.name} </div>
-													<div>{od.amount} pc(s)</div>
-												</li>
-											);
-										})}
-								</ol>
-								<div className='flex justify-center items-center'>
-									<DeleteSVG onClick={() => deleteOrderHandler(e.orderHeaderId!)} />
-								</div>
-							</div>
-						);
-					})}
-			</div>
 			<ErrorMessage message={error} />
 		</div>
 	);

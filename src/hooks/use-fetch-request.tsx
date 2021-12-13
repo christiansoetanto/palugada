@@ -5,10 +5,12 @@ import IRequestConfig from "../interfaces/IRequestConfig";
 const useFetchRequest = () => {
 	const ctx = useContext(AuthContext);
 	const [error, setError] = useState<string | null>(null);
+	const [isLoading, setIsLoading] = useState<boolean>(false);
 
 	const fetchRequest = useCallback(
 		async (requestConfig: IRequestConfig, applyData: (data: any) => void) => {
 			setError(null);
+			setIsLoading(true);
 			try {
 				if (requestConfig.url.includes("{{userId}}")) requestConfig.url = requestConfig.url.replace("{{userId}}", ctx.user!.userId.toString());
 
@@ -30,11 +32,13 @@ const useFetchRequest = () => {
 					throw new Error(response.statusText);
 				}
 				const data = await response.json();
-				await applyData(data);
+				applyData(data);
+				setIsLoading(false);
 			} catch (err: any) {
 				let errorMessage = "Something went wrong!";
 				if (err instanceof Error) errorMessage = err.message;
 				setError(errorMessage);
+				setIsLoading(false);
 			}
 		},
 		[ctx.token, ctx.user]
@@ -42,6 +46,7 @@ const useFetchRequest = () => {
 
 	return {
 		fetchRequest,
+		isLoading,
 		error,
 		setError,
 	};

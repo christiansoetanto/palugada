@@ -10,7 +10,6 @@ interface Props {
 
 const Cell: React.FunctionComponent<Props> = (props: Props) => {
 	const { data, currentMonth, onDateClick } = props;
-
 	const { date, orderList } = data;
 	const dateClickHandler = () => {
 		onDateClick(date);
@@ -27,9 +26,9 @@ const Cell: React.FunctionComponent<Props> = (props: Props) => {
 				className={`text-sm  ${!isCurrentMonth && "text-gray-800"} text-center border-b-2 border-black border-transparent ${
 					isSunday && "text-red-400"
 				}  ${!isCurrentMonth && "bg-warmGray-400"} ${isToday && "bg-green-300"}`}>
-				{date.getDate()} {!isCurrentMonth && shortMonthName[date.getMonth()]}
+				{date.toLocaleDateString("id-ID", { weekday: "long" })}, {date.getDate()} {!isCurrentMonth && shortMonthName[date.getMonth()]}
 			</div>
-			<div className={`bg-warmGray-100 ${orderList && orderList.length > 0 && "min-h-6rem"}`} onClick={dateClickHandler}>
+			<div className={`bg-warmGray-100 min-h-2rem`} onClick={dateClickHandler}>
 				{(!orderList || orderList.length === 0) && <div className='text-sm px-3 my-2'>No order</div>}
 				{orderList &&
 					orderList.map((e) => {

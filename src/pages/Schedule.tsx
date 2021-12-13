@@ -22,7 +22,7 @@ const Schedule: React.FunctionComponent<Props> = (props: Props) => {
 	const orderDivRef = useRef<HTMLDivElement>(null);
 	const [menu, setMenu] = useState<IMenuItem[]>([]);
 
-	const { fetchRequest, error } = useFetchRequest();
+	const { fetchRequest, error, isLoading } = useFetchRequest();
 
 	useEffect(() => {
 		const config: IRequestConfig = {
@@ -34,10 +34,11 @@ const Schedule: React.FunctionComponent<Props> = (props: Props) => {
 		fetchRequest(config, onFetchMenu);
 	}, [fetchRequest]);
 	useEffect(() => {
-		const config: IRequestConfig = {
-			url: `order/user/{{userId}}/${currentMonth}/${currentYear}`,
-		};
-		const onFetchOrder: (data: IOrderHeader[]) => void = (data) => {
+		setCurrentDate(null);
+		const firstDate = new Date(currentYear, currentMonth, 0 - new Date(currentYear, currentMonth, 1).getDay() + 1);
+		const lastDate = new Date(currentYear, currentMonth, 41 - new Date(currentYear, currentMonth, 1).getDay() + 1);
+		const config: IRequestConfig = { url: `order/user/{{userId}}/get-range/${firstDate.toUTCString()}/${lastDate.toUTCString()}` };
+		const onFetchOrderRange: (data: IOrderHeader[]) => void = (data) => {
 			const cells: ICell[] = new Array(42).fill(null).map((v, i) => {
 				const date = new Date(currentYear, currentMonth, i - new Date(currentYear, currentMonth, 1).getDay() + 1);
 				return {
@@ -50,8 +51,7 @@ const Schedule: React.FunctionComponent<Props> = (props: Props) => {
 
 			setCells(cells);
 		};
-		setCurrentDate(null);
-		fetchRequest(config, onFetchOrder);
+		fetchRequest(config, onFetchOrderRange);
 	}, [currentMonth, currentYear, fetchRequest, forceRerender]);
 
 	useEffect(() => {
@@ -88,18 +88,23 @@ const Schedule: React.FunctionComponent<Props> = (props: Props) => {
 
 	return (
 		<div className='flex flex-col'>
-			<MonthTitle currentMonth={currentMonth} currentYear={currentYear} decreaseMonth={decreaseMonth} increaseMonth={increaseMonth} />
-			<Calendar cells={cells} currentMonth={currentMonth} onDateClick={dateClickHandler} />
-			{currentDate && (
-				<div className='my-10' ref={orderDivRef}>
-					<div className='text-lg text-blue-700 text-center'>{currentDate.toDateString()}</div>
-					<div className='flex flex-col lg:flex-row lg:flex-wrap gap-x-5 justify-around'>
-						<InputOrderForm date={currentDate} menu={menu} triggerRerender={triggerRerender} />
-						<Order date={currentDate} triggerRerender={triggerRerender} />
-					</div>
+			{isLoading && <div className='text-4xl flex items-center justify-center text-center'>Waking up the server...</div>}
+			{!isLoading && (
+				<div>
+					<MonthTitle currentMonth={currentMonth} currentYear={currentYear} decreaseMonth={decreaseMonth} increaseMonth={increaseMonth} />
+					<Calendar cells={cells} currentMonth={currentMonth} onDateClick={dateClickHandler} />
+					{currentDate && (
+						<div className='my-10' ref={orderDivRef}>
+							<div className='text-lg text-blue-700 text-center'>{currentDate.toDateString()}</div>
+							<div className='flex flex-col lg:flex-row lg:flex-wrap gap-x-5 justify-around'>
+								<InputOrderForm date={currentDate} menu={menu} triggerRerender={triggerRerender} />
+								<Order date={currentDate} triggerRerender={triggerRerender} />
+							</div>
+						</div>
+					)}
+					<ErrorMessage message={error} />
 				</div>
 			)}
-			<ErrorMessage message={error} />
 		</div>
 	);
 };

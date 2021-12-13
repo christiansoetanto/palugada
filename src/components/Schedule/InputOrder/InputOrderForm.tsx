@@ -97,7 +97,8 @@ const InputOrderForm: React.FunctionComponent<Props> = (props: Props) => {
 
 					{orderDetails.map((e) => {
 						return (
-							<OrderDetailFormItem
+							<OrderDetailFormItem 
+								key={e.id}
 								data={e}
 								menu={menu}
 								onUpdateAmount={updateAmountHandler}
