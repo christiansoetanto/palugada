@@ -14,7 +14,7 @@ const MonthTitle: React.FunctionComponent<Props> = (props: Props) => {
 
 	const { currentMonth, currentYear, decreaseMonth, increaseMonth } = props;
 	return (
-		<div className={`flex w-full text-3xl items-center mt-4 justify-between mb-8`}>
+		<div className={`flex w-full text-3xl items-center mt-4 justify-between mb-8 text-richBlack`}>
 			<ChevronLeftSVG onClick={decreaseMonth} />
 			<div>{`${monthName[currentMonth]} ${currentYear}`} </div>
 			<ChevronRightSVG onClick={increaseMonth} />

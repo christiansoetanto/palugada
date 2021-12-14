@@ -14,13 +14,13 @@ const MenuTable: React.FunctionComponent<Props> = (props: Props) => {
 		<div className='flex flex-col'>
 			{menuList.length === 0 && <div>No menu available</div>}
 			{menuList.length > 0 && (
-				<table className='border-collapse border border-green-800'>
+				<table className='border-collapse border border-emerald-800'>
 					<thead>
 						<tr>
-							<th className='border border-green-600 text-center bg-green-200'>Name</th>
-							<th className='border border-green-600  text-center bg-green-200'>Price</th>
-							<th className='border border-green-600  text-center bg-green-200'>Item Sold</th>
-							<th className='border border-green-600  text-center bg-green-200' colSpan={2}>
+							<th className='border border-emerald-600 text-center bg-emerald-200'>Name</th>
+							<th className='border border-emerald-600  text-center bg-emerald-200'>Price</th>
+							<th className='border border-emerald-600  text-center bg-emerald-200'>Item Sold</th>
+							<th className='border border-emerald-600  text-center bg-emerald-200' colSpan={2}>
 								Action
 							</th>
 						</tr>

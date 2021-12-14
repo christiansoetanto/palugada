@@ -5,12 +5,13 @@ interface Props {
 	cells: ICell[];
 	currentMonth: number;
 	onDateClick: (date: Date) => void;
+	isShowPastDate: boolean;
 }
 
 const Calendar: React.FunctionComponent<Props> = (props: Props) => {
 	const daysOfWeek = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
-	const { cells, currentMonth, onDateClick } = props;
+	const { cells, currentMonth, onDateClick, isShowPastDate } = props;
 
 	const dateClickHandler = (date: Date) => {
 		onDateClick(date);
@@ -27,9 +28,9 @@ const Calendar: React.FunctionComponent<Props> = (props: Props) => {
 					);
 				})}
 			</div>
-			<div className='grid grid-cols-1 lg:grid-cols-7 rounded-xl gap-0'>
+			<div className='grid grid-cols-2 lg:grid-cols-7 rounded-xl gap-0'>
 				{cells.map((e, index) => {
-					return <Cell data={e} currentMonth={currentMonth} key={index} onDateClick={dateClickHandler} />;
+					return <Cell data={e} isShowPastDate={isShowPastDate} currentMonth={currentMonth} key={index} onDateClick={dateClickHandler} />;
 				})}
 			</div>
 		</div>

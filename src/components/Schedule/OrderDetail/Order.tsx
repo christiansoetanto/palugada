@@ -59,17 +59,17 @@ const Order: React.FunctionComponent<Props> = (props: Props) => {
 										return previousValue + currentValue;
 									});
 								return (
-									<div key={e.orderHeaderId} className='flex flex-col bg-warmGray-200 rounded-2xl  justify-center px-5 py-3'>
+									<div key={e.orderHeaderId} className='flex flex-col bg-stone-200 rounded-2xl  justify-center px-5 py-3'>
 										<div className='text-xl text-red-600'>{e.title}</div>
 
-										<div className='text-l text-green-700'>{moneyFormatter(totalPrice)}</div>
+										<div className='text-l text-emerald-700'>{moneyFormatter(totalPrice)}</div>
 										<div className='text-m'>List menu: </div>
 										<ol className='list-disc'>
 											{e.orderDetail &&
 												e.orderDetail.map((od) => {
 													return (
 														<li
-															key={od.id}
+															key={od.orderDetailId}
 															className='flex flex-row gap-x-1 justify-between bg-amber-400  my-1 p-1 px-2 rounded-xl'>
 															<div>{od.menu!.name} </div>
 															<div>{od.amount} pc(s)</div>

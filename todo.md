@@ -1,7 +1,7 @@
 # Orderan
 
 ### TODO
-
+-   [ ] restyle with better color pallete
 -   [ ] penambahan field di form order
     -   [ ] note
     -   [ ] nama pembeli

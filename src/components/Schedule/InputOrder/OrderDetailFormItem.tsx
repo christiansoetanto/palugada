@@ -12,12 +12,12 @@ interface Props {
 
 const OrderDetailFormItem: React.FunctionComponent<Props> = (props: Props) => {
 	const { data, menu, onUpdateAmount, onUpdateMenuId, onDelete } = props;
-	const { id, amount, menuId } = data;
+	const { domId, amount, menuId } = data;
 	const updateAmount = (val: number) => {
-		onUpdateAmount(val, id);
+		onUpdateAmount(val, domId);
 	};
 	const updateMenuId = (val: number) => {
-		onUpdateMenuId(val, id);
+		onUpdateMenuId(val, domId);
 	};
 
 	return (
@@ -58,7 +58,7 @@ const OrderDetailFormItem: React.FunctionComponent<Props> = (props: Props) => {
 			<div className='flex align-middle items-center justify-items-center'>
 				<MinusSVG
 					onClick={() => {
-						onDelete(id);
+						onDelete(domId);
 					}}
 				/>
 			</div>

@@ -27,23 +27,23 @@ const InputOrderForm: React.FunctionComponent<Props> = (props: Props) => {
 	const titleRef = useRef<HTMLInputElement>(null);
 	const [orderDetails, setOrderDetails] = useState<IOrderDetail[]>([
 		{
-			id: uuidv4(),
+			domId: uuidv4(),
 			amount,
 			menuId,
 		},
 	]);
 
-	const updateAmountHandler = (val: number, id: string) => {
+	const updateAmountHandler = (val: number, domId: string) => {
 		setOrderDetails((prev) => {
 			return prev.map((e) => {
-				return e.id === id ? { ...e, amount: val } : { ...e };
+				return e.domId === domId ? { ...e, amount: val } : { ...e };
 			});
 		});
 	};
-	const updateMenuIdHandler = (val: number, id: string) => {
+	const updateMenuIdHandler = (val: number, domId: string) => {
 		setOrderDetails((prev) => {
 			return prev.map((e) => {
-				return e.id === id ? { ...e, menuId: val } : { ...e };
+				return e.domId === domId ? { ...e, menuId: val } : { ...e };
 			});
 		});
 	};
@@ -80,12 +80,12 @@ const InputOrderForm: React.FunctionComponent<Props> = (props: Props) => {
 
 	const addItemHandler = () => {
 		setOrderDetails((prev) => {
-			return [...prev, { id: uuidv4(), amount, menuId }];
+			return [...prev, { domId: uuidv4(), amount, menuId }];
 		});
 	};
-	const deleteItemHandler = (id: string) => {
+	const deleteItemHandler = (domId: string) => {
 		setOrderDetails((prev) => {
-			return prev.filter((e) => e.id !== id);
+			return prev.filter((e) => e.domId !== domId);
 		});
 	};
 
@@ -97,8 +97,8 @@ const InputOrderForm: React.FunctionComponent<Props> = (props: Props) => {
 
 					{orderDetails.map((e) => {
 						return (
-							<OrderDetailFormItem 
-								key={e.id}
+							<OrderDetailFormItem
+								key={e.domId}
 								data={e}
 								menu={menu}
 								onUpdateAmount={updateAmountHandler}

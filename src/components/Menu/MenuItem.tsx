@@ -1,8 +1,8 @@
 import React from "react";
 import IMenuItem from "../../interfaces/IMenuItem";
+import { moneyFormatter } from "../Helper/helper";
 import DeleteSVG from "../UI/SVG/DeleteSVG";
 import EditSVG from "../UI/SVG/EditSVG";
-import { moneyFormatter } from "../Helper/helper";
 interface Props {
 	data: IMenuItem;
 	onDelete: (menuId: number) => void;
@@ -24,15 +24,15 @@ const MenuItem: React.FunctionComponent<Props> = (props: Props) => {
 
 	return (
 		<tr className=''>
-			<td className='border border-green-300  text-center'>{name}</td>
-			<td className='border border-green-300  text-center'>{moneyFormatter(price)}</td>
-			<td className='border border-green-300  text-center'>{itemSold}</td>
-			<td className='border border-green-300 '>
+			<td className='border border-emerald-300  text-center'>{name}</td>
+			<td className='border border-emerald-300  text-center'>{moneyFormatter(price)}</td>
+			<td className='border border-emerald-300  text-center'>{itemSold}</td>
+			<td className='border border-emerald-300 '>
 				<div className='flex  items-center justify-center '>
 					<DeleteSVG onClick={deleteHandler} />
 				</div>
 			</td>
-			<td className='border border-green-300'>
+			<td className='border border-emerald-300'>
 				<div className='flex  items-center justify-center '>
 					<EditSVG onClick={editHandler} />
 				</div>

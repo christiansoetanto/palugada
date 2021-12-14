@@ -24,9 +24,8 @@ const NavBar: React.FunctionComponent<Props> = (props: Props) => {
 		<header className='md:px-16 h-16 md:h-24 px-6 bg-white flex flex-wrap items-center py-4 sticky top-0 shadow-sm z-50'>
 			<div className='flex flex-1 lg:flex-none items-center mr-6 pb-2'>
 				<NavLink to='/' className='font-bold text-2xl'>
-					<div className='flex items-center justify-center flex-1'>Home</div>
+					<div className='flex items-center justify-center flex-1 '>Home</div>
 				</NavLink>
-				
 			</div>
 
 			<label htmlFor='menu-toggle' className='pointer-cursor lg:hidden block'>

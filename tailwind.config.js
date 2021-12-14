@@ -1,19 +1,7 @@
-const colors = require("./node_modules/tailwindcss/colors");
 module.exports = {
-	purge: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
-	darkMode: false, // or 'media' or 'class'
+	content: ["./src/**/*.{js,jsx,ts,tsx}"],
 	theme: {
 		extend: {
-			colors: {
-				rose: colors.rose,
-				fuchsia: colors.fuchsia,
-				indigo: colors.indigo,
-				teal: colors.teal,
-				lime: colors.lime,
-				orange: colors.orange,
-				warmGray: colors.warmGray,
-				amber: colors.amber,
-			},
 			minHeight: {
 				0: "0",
 				"6rem": "6rem",
@@ -47,10 +35,14 @@ module.exports = {
 				smMax: { max: "639px" },
 				// => @media (max-width: 639px) { ... }
 			},
+			colors: {
+				dimGray: "#6d676e",
+				richBlack: "#0a0908",
+				isabelline: "#f8edeb",
+				copper: "#b87333",
+				peach: "#fec89a",
+			},
 		},
-	},
-	variants: {
-		extend: {},
 	},
 	plugins: [],
 };
