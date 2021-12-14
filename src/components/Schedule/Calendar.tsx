@@ -19,7 +19,8 @@ const Calendar: React.FunctionComponent<Props> = (props: Props) => {
 
 	return (
 		<div className='flex flex-col gap-y-4 '>
-			<div className=' hidden lg:grid grid-cols-7'>
+			{/* tambah lg:grid kalau mau munculin lagi */}
+			<div className=' hidden grid-cols-7'>
 				{daysOfWeek.map((e, i) => {
 					return (
 						<div key={i} className={`text-center text-sm font-bold text-gray-400 ${e === "SUN" && "text-red-400"}`}>
