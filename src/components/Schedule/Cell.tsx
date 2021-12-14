@@ -26,13 +26,11 @@ const Cell: React.FunctionComponent<Props> = (props: Props) => {
 	const isPastDate = +new Date().setHours(0, 0, 0, 0) > +new Date(date);
 
 	const bgColor = !isCurrentMonth ? "bg-dimGray" : isToday ? "bg-peach" : "bg-isabelline";
+	const textColor = !isCurrentMonth ? "text-richBlack" : isSunday ? "text-red-400" : "text-copper";
 
 	return (
 		<div className={`flex flex-col border border-gray-300  ${isPastDate && !isShowPastDate && "hidden"}`}>
-			<div
-				className={`text-sm text-center border-b-2 border-copper  ${(isCurrentMonth && "text-dimGray") || "text-richBlack"}  ${bgColor}  ${
-					isSunday && "text-red-500"
-				}  `}>
+			<div className={`text-sm text-center border-b-2 border-copper  ${textColor}  ${bgColor}`}>
 				{dayName[date.getDay()]}, {date.getDate()} {!isCurrentMonth && shortMonthName[date.getMonth()]}
 			</div>
 			<div className={`bg-isabelline min-h-2rem lg:min-h-6rem h-full cursor-pointer flex flex-col gap-y-2 py-2`} onClick={dateClickHandler}>
