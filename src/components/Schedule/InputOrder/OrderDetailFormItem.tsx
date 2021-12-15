@@ -21,12 +21,12 @@ const OrderDetailFormItem: React.FunctionComponent<Props> = (props: Props) => {
 	};
 
 	return (
-		<div className='flex flex-row  justify-between'>
+		<div className='flex flex-row  justify-between gap-x-1'>
 			<div>
 				<label className='block mb-3'>
-					<span className='text-gray-500 text-sm '>Menu</span>
+					<span className='text-dimGray text-sm '>Menu</span>
 					<select
-						className='block w-full focus:outline-none bg-transparent border-2 rounded border-gray-300 text-sm md:text-base p-1'
+						className='block w-full focus:outline-none bg-transparent border-2 rounded border-peach text-sm md:text-base p-1'
 						value={menuId}
 						onChange={(e) => updateMenuId(parseInt(e.target.value))}>
 						<option disabled={true} value={0}>
@@ -44,18 +44,18 @@ const OrderDetailFormItem: React.FunctionComponent<Props> = (props: Props) => {
 			</div>
 			<div>
 				<label className='block mb-3'>
-					<span className='text-gray-500 text-sm '>Amount</span>
+					<span className='text-dimGray text-sm '>Amount</span>
 					<input
 						value={amount}
 						onChange={(e) => updateAmount(parseInt(e.target.value))}
 						type={"number"}
 						min={0}
 						max={2147483647}
-						className='block w-full focus:outline-none bg-transparent border-2 rounded border-gray-300 text-sm md:text-base p-1'
+						className='block w-full focus:outline-none bg-transparent border-2 rounded border-peach text-sm md:text-base p-1'
 					/>
 				</label>
 			</div>
-			<div className='flex align-middle items-center justify-items-center'>
+			<div className='flex flex-col translate-y-1  items-center justify-center'>
 				<MinusSVG
 					onClick={() => {
 						onDelete(domId);

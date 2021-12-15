@@ -18,6 +18,10 @@ const Home: React.FunctionComponent<Props> = (props: Props) => {
 				versionNumber: "v1.2",
 				changeList: ["upgrade to tailwind v3.0", "use fancy english for day name", "change color pallete", "show/hide past date"],
 			},
+			{
+				versionNumber: "v1.3",
+				changeList: ["restyle input components", "togggggle", "restyle table menu"],
+			},
 		].reverse()
 	);
 	return (

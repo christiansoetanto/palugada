@@ -10,7 +10,7 @@ interface Props {
 }
 
 const MenuItem: React.FunctionComponent<Props> = (props: Props) => {
-	const { menuId, name, price, itemSold = 0 } = props.data;
+	const { menuId, name, price } = props.data;
 	const { onDelete, onEdit } = props;
 	const deleteHandler = (e: React.SyntheticEvent) => {
 		e.preventDefault();
@@ -24,15 +24,14 @@ const MenuItem: React.FunctionComponent<Props> = (props: Props) => {
 
 	return (
 		<tr className=''>
-			<td className='border border-emerald-300  text-center'>{name}</td>
-			<td className='border border-emerald-300  text-center'>{moneyFormatter(price)}</td>
-			<td className='border border-emerald-300  text-center'>{itemSold}</td>
-			<td className='border border-emerald-300 '>
+			<td className='border border-peach  text-center'>{name}</td>
+			<td className='border border-peach  text-center'>{moneyFormatter(price)}</td>
+			<td className='border border-peach '>
 				<div className='flex  items-center justify-center '>
 					<DeleteSVG onClick={deleteHandler} />
 				</div>
 			</td>
-			<td className='border border-emerald-300'>
+			<td className='border border-peach'>
 				<div className='flex  items-center justify-center '>
 					<EditSVG onClick={editHandler} />
 				</div>

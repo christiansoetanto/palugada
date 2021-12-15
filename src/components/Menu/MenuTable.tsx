@@ -14,21 +14,22 @@ const MenuTable: React.FunctionComponent<Props> = (props: Props) => {
 		<div className='flex flex-col'>
 			{menuList.length === 0 && <div>No menu available</div>}
 			{menuList.length > 0 && (
-				<table className='border-collapse border border-emerald-800'>
+				<table className=' border-collapse bg-isabelline text-black'>
 					<thead>
 						<tr>
-							<th className='border border-emerald-600 text-center bg-emerald-200'>Name</th>
-							<th className='border border-emerald-600  text-center bg-emerald-200'>Price</th>
-							<th className='border border-emerald-600  text-center bg-emerald-200'>Item Sold</th>
-							<th className='border border-emerald-600  text-center bg-emerald-200' colSpan={2}>
+							<th className='border border-copper text-center bg-peach'>Name</th>
+							<th className='border border-copper text-center bg-peach'>Price</th>
+							<th className='border border-copper text-center bg-peach' colSpan={2}>
 								Action
 							</th>
 						</tr>
 					</thead>
 					<tbody>
-						{menuList.map((e) => {
-							return <MenuItem key={e.menuId} data={e} onDelete={onDelete} onEdit={onEdit} />;
-						})}
+						{menuList
+							.sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0))
+							.map((e) => {
+								return <MenuItem key={e.menuId} data={e} onDelete={onDelete} onEdit={onEdit} />;
+							})}
 					</tbody>
 				</table>
 			)}

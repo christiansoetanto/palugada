@@ -7,8 +7,8 @@ interface Props {
 }
 const Select = React.forwardRef((props: Props, ref: React.ForwardedRef<HTMLSelectElement>) => (
 	<label className='block mb-3'>
-		<span className='text-gray-500 text-sm '>{props.text}</span>
-		<select className='block w-full focus:outline-none bg-transparent border-2 rounded border-gray-300 text-sm md:text-base p-1' ref={ref}>
+		<span className='text-dimGray text-sm '>{props.text}</span>
+		<select className='block w-full focus:outline-none bg-transparent border-2 rounded border-peach text-sm md:text-base p-1' ref={ref}>
 			<option disabled={true}>Please select {props.text}</option>
 
 			{props.options.map((e) => {

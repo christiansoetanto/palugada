@@ -3,7 +3,6 @@ import Calendar from "../components/Schedule/Calendar";
 import InputOrderForm from "../components/Schedule/InputOrder/InputOrderForm";
 import MonthTitle from "../components/Schedule/MonthTitle";
 import Order from "../components/Schedule/OrderDetail/Order";
-import Button from "../components/UI/Button";
 import ErrorMessage from "../components/UI/ErrorMessage";
 import useFetchRequest from "../hooks/use-fetch-request";
 import ICell from "../interfaces/ICell";
@@ -92,23 +91,34 @@ const Schedule: React.FunctionComponent<Props> = (props: Props) => {
 		setIsShowPastDate((prev) => !prev);
 	};
 
-	useEffect(() => {
-		console.log(isShowPastDate);
-	}, [isShowPastDate]);
-
 	return (
 		<div className='flex flex-col'>
 			{isLoading && <div className='text-4xl flex items-center justify-center text-center'>Waking up the server...</div>}
 			{!isLoading && (
 				<div>
 					<MonthTitle currentMonth={currentMonth} currentYear={currentYear} decreaseMonth={decreaseMonth} increaseMonth={increaseMonth} />
-					<div className='mb-3'>
-						<Button text={`${isShowPastDate ? "Hide past date" : "Show past date"}`} onClick={triggerPastDateHandler} />
+
+					<div className='mb-5 flex flex-row gap-x-2'>
+						<div
+							onClick={triggerPastDateHandler}
+							className={`${
+								isShowPastDate ? "bg-peach" : "bg-dimGray"
+							} h-8 w-14 p-1 cursor-pointer rounded-full overflow-hidden  flex flex-row  `}>
+							<div
+								className={`bg-white w-6 h-6 rounded-full overflow-hidden shadow-2xl ${
+									isShowPastDate && "transform translate-x-6 "
+								} ease-in-out duration-300`}></div>
+						</div>
+						<div className={`${isShowPastDate ? "text-copper" : "text-dimGray"} flex flex-col items-center text-center justify-center`}>
+							{/* {isShowPastDate ? "Hide past date" : "Show past date"} */}
+							Past date: {isShowPastDate ? "ON" : "OFF"}
+						</div>
 					</div>
+
 					<Calendar cells={cells} isShowPastDate={isShowPastDate} currentMonth={currentMonth} onDateClick={dateClickHandler} />
 					{currentDate && (
 						<div className='my-10' ref={orderDivRef}>
-							<div className='text-lg text-peach text-center'>{currentDate.toDateString()}</div>
+							<div className='text-lg text-copper text-center'>{currentDate.toDateString()}</div>
 							<div className='flex flex-col lg:flex-row lg:flex-wrap gap-x-5 justify-around'>
 								<InputOrderForm date={currentDate} menu={menu} triggerRerender={triggerRerender} />
 								<Order date={currentDate} triggerRerender={triggerRerender} />

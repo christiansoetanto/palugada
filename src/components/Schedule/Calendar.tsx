@@ -29,7 +29,7 @@ const Calendar: React.FunctionComponent<Props> = (props: Props) => {
 					);
 				})}
 			</div>
-			<div className='grid grid-cols-2 lg:grid-cols-7 rounded-xl gap-0'>
+			<div className='grid grid-cols-2 lg:grid-cols-7 gap-0 rounded-t-lg rounded-b-lg overflow-hidden'>
 				{cells.map((e, index) => {
 					return <Cell data={e} isShowPastDate={isShowPastDate} currentMonth={currentMonth} key={index} onDateClick={dateClickHandler} />;
 				})}

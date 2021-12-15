@@ -13,7 +13,7 @@ const Layout: React.FunctionComponent<Props> = (props: Props) => {
 	return (
 		<div>
 			{ctx.isLoggedIn && ctx.user && (
-				<div className='asd'>
+				<div className=''>
 					<NavBar />
 					<main className='p-2 mx-10 md:mx-36'>{props.children}</main>
 				</div>
